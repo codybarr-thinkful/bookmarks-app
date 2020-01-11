@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Rating from '../Rating/Rating'
 import './BookmarkItem.css'
 import { Link } from 'react-router-dom'
 
+import BookmarkContext from '../Context'
+
 export default function BookmarkItem(props) {
+	const { deleteBookmark = () => {} } = useContext(BookmarkContext)
+
 	return (
 		<li className="BookmarkItem">
 			<div className="BookmarkItem__row">
@@ -22,21 +26,17 @@ export default function BookmarkItem(props) {
 			<div className="BookmarkItem__buttons">
 				<Link
 					to={`/edit/${props.id}`}
-					className="BookmarkItem__description"
+					className="BookmarkItem__edit_link"
 				>
 					Edit
 				</Link>
 				<button
-					className="BookmarkItem__description"
-					onClick={() => props.onClickDelete(props.id)}
+					className="BookmarkItem__delete_button"
+					onClick={() => deleteBookmark(props.id)}
 				>
 					Delete
 				</button>
 			</div>
 		</li>
 	)
-}
-
-BookmarkItem.defaultProps = {
-	onClickDelete: () => {}
 }

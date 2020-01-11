@@ -8,7 +8,7 @@ import './App.css'
 
 import BookmarkContext from './Context'
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 class App extends Component {
 	state = {
@@ -24,11 +24,37 @@ class App extends Component {
 	}
 
 	updateBookmark = updatedBookmark => {
+		const updatedBookmarks = this.state.bookmarks.map(bm =>
+			bm.id === updatedBookmark.id ? updatedBookmark : bm
+		)
+
 		this.setState({
-			bookmarks: this.state.bookmarks.map(bm =>
-				bm.id === updatedBookmark.id ? updatedBookmark : bm
-			)
+			bookmarks: updatedBookmarks
 		})
+	}
+
+	deleteBookmark = bookmarkId => {
+		fetch(`${config.API_ENDPOINT}/${bookmarkId}`, {
+			method: 'DELETE',
+			headers: {
+				'content-type': 'application/json',
+				authorization: `bearer ${config.API_KEY}`
+			}
+		})
+			.then(res => {
+				if (!res.ok) {
+					throw new Error(res.status)
+				} else {
+					const updatedBookmarks = this.state.bookmarks.filter(
+						bm => bm.id !== bookmarkId
+					)
+
+					this.setState({
+						bookmarks: updatedBookmarks
+					})
+				}
+			})
+			.catch(error => this.setState({ error }))
 	}
 
 	fetchBookmarks() {
@@ -53,7 +79,8 @@ class App extends Component {
 		this.fetchBookmarks()
 
 		this.setState({
-			updateBookmark: this.updateBookmark
+			updateBookmark: this.updateBookmark,
+			deleteBookmark: this.deleteBookmark
 		})
 	}
 

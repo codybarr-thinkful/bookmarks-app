@@ -15,8 +15,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"predeploy": "yarn build",
-		"deploy": "now --prod ./build",
-		"postdeploy": "now alias -A ./build/now.json"
+		"deploy": "now --prod ./build"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
