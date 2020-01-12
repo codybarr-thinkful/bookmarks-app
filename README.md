@@ -7,3 +7,7 @@ Simple CRA app for CRUD operations on a list of saved bookmarks. Interfaces with
 **Checkpoint 17**
 
 Added an edit bookmark page, added router and context for controlling shared state of bookmarks and function for updating individual bookmarks in state when edited via the form. Edit Bookmark page/form hits the API using a `PATCH` request.
+
+**Checkpoint 20**
+
+Refactored for compat with corresponding `bookmarks-server` express api deployed to Heroku.
